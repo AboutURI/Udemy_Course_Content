@@ -18,7 +18,8 @@ class CourseContent extends React.Component {
       course: {},
       isLoaded: false,
       allExpanded: false,
-      host: 'ec2-18-130-234-175.eu-west-2.compute.amazonaws.com:9800',
+      host: 'localhost:9800',
+      // host: 'ec2-18-130-234-175.eu-west-2.compute.amazonaws.com:9800'
       // host: '127.0.0.1:9800',
       displayMoreSections: false
     };
