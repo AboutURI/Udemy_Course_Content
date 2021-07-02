@@ -77,19 +77,19 @@ In order to maximize efficiency for the user-facing portion of the service, Mong
 
 ### API
 
-GET /course/:courseId
+GET '/course/:courseId'
 
 returns all data relating to that courseId
 
 
-POST /course/:courseId
+POST '/course/:courseId'
 creates a new course
 
-DELETE /Course/:courseId
+DELETE '/course/:courseId'
 
 deletes the course 
 
-PUT /course/:courseId
+PUT '/course/:courseId'
 
 edits a course
 returns the updated course
