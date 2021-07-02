@@ -85,4 +85,38 @@ module.exports.findElement = async id => {
 
 };
 
+//--------------CRUD---------------------
+
+//Create
+let createCourse = (data) => {
+  let newCourse = new Course(data);
+  newCourse.save(function(err, success) {
+    if (err) {
+      consoloe.log('error CREATEing record');
+    }
+  });
+};
+
+//Read
+let readCourse = async (courseId) => {
+  return await Course.findById(courseID);
+};
+
+//Update
+let updateCourse = (id, data) => {
+  Course.findByIdAndUpdate(id, data, {new: true}, (err)=>{
+    if (err) {
+      console.log('error Updating Course');
+    }
+  });
+};
+
+//Delete
+let deleteCourse = (id) => {
+  Course.findByIdAndRemove(id, (err) => {
+    if (err) {
+      console.log('error Deleting record');
+    }
+  });
+};
 module.exports.Course = Course;
