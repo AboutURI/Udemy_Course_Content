@@ -98,25 +98,36 @@ let createCourse = (data) => {
 };
 
 //Read
-let readCourse = async (courseId) => {
-  return await Course.findById(courseID);
+let readCourse = (id) => {
+  return Course.find({ courseId: id });
 };
 
 //Update
-let updateCourse = (id, data) => {
-  Course.findByIdAndUpdate(id, data, {new: true}, (err)=>{
+let updateCourse = (id, data, callback) => {
+
+  Course.findOneAndUpdate({courseId: id}, data, {new: true}, (err, result)=>{
     if (err) {
-      console.log('error Updating Course');
+      console.log('Error Updating Course');
+    } else {
+      callback(result);
     }
   });
+
 };
 
 //Delete
-let deleteCourse = (id) => {
-  Course.findByIdAndRemove(id, (err) => {
+let deleteCourse = (id, callback) => {
+
+  Course.deleteOne({courseId: id}, (err, result) => {
     if (err) {
       console.log('error Deleting record');
+    } else {
+      callback(result);
     }
   });
 };
 module.exports.Course = Course;
+module.exports.deleteCourse = deleteCourse;
+module.exports.updateCourse = updateCourse;
+module.exports.readCourse = readCourse;
+module.exports.createCourse = createCourse;
