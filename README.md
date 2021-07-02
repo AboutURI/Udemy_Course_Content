@@ -75,6 +75,27 @@ This service required textual elements as well as videos. The text elements coul
 ### Nested Database Schemas
 In order to maximize efficiency for the user-facing portion of the service, MongoDB was chosen because it can retrieve elements in constant time, and there is no need for relation. The service contains nested elements, which are reflected in the database. This created a challenge when creating endpoints that search for data regarding these nested elements. In order to reduce logic on the server side, I used aggregate functions within the Mongoose ORM to unwind and match the correct element. This could have been easier achieved with a SQL-based database, and it would have improved efficiency for my colleagues, but it would have required several join tables that would increase the logic and reduce the efficiency of the user-facing part of the service.
 
+API
+
+GET /course/:courseId
+
+returns all data relating to that courseId
+
+
+POST /course/:courseId
+creates a new course
+
+DELETE /Course/:courseId
+
+deletes the course 
+
+PUT /course/:courseId
+
+edits a course
+returns the updated course
+
+
+
 ## Related Projects
 - Reviews
 https://github.com/Charlotte-Badger/Reviews
