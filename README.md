@@ -83,6 +83,7 @@ returns all data relating to that courseId
 
 
 POST `/course/:courseId`
+
 creates a new course
 
 DELETE `/course/:courseId`
