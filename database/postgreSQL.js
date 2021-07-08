@@ -99,9 +99,14 @@ const Element = sequelize.define('Element', {
 });
 
 
-module.exports.createCourse = async (classInfo) => {
+module.exports.createCourse = async (course) => {
   // console.log('class info in create funciton', classInfo);
-  let newCourse = await Course.create(classInfo);
+  let newCourse = await Course.create(course);
+};
+
+module.exports.bulkCreateCourses = async (courses) => {
+  // console.log('class info in create funciton', classInfo);
+  let newCourse = await Course.bulkCreate(courses);
 };
 
 module.exports.createSection = async (section) => {
@@ -109,9 +114,19 @@ module.exports.createSection = async (section) => {
   let newSection = await Section.create(section);
 };
 
+module.exports.bulkCreateSection = async (sections) => {
+  // console.log('section info inside create function', section);
+  let newSection = await Section.bulkCreate(sections);
+};
+
 module.exports.createElement = async (element) => {
   //console.log('element info inside create function', element);
   let newElement = await Element.create(element);
+};
+
+module.exports.bulkCreateElement = async (elements) => {
+  //console.log('element info inside create function', element);
+  let newElement = await Element.bulkCreate(elements);
 };
 
 // sequelize.authenticate().then(()=> {
