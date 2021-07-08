@@ -1,10 +1,18 @@
-const LoremIpsum = require('lorem-ipsum').LoremIpsum;
-const faker = require('faker');
-const s3 = require('./s3.js');
+const couchbase = require('couchbase');
+const fs = require('fs');
+const { exec } = require("child_process");
 
-let videosCounter = 0;
-let sectionIdCounter = 1;
-let elementIdCounter = 1;
+
+const cluster = new couchbase.Cluster('couchbase://localhost/8091', {
+  username: 'Administrator', password: 'password'
+});
+const bucket = cluster.bucket('Courses');
+const cb = bucket.defaultCollection();
+
+const faker = require('faker');
+const LoremIpsum = require('lorem-ipsum').LoremIpsum;
+
+
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -17,8 +25,11 @@ const lorem = new LoremIpsum({
   }
 });
 
+let sectionIdCounter = 1;
+let elementIdCounter = 1;
+let courseIdCounter = 1;
+
 const generateElement = (i, j, k) => {
-  let videosArray = require('./videosArray.js');
 
   let options = ['lecture', 'lecture', 'lecture', 'lecture', 'quiz', 'quiz', 'exercise', 'quiz', 'exercise', 'exercise', 'exercise', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'lecture', 'article', 'article', 'article'];
 
@@ -33,18 +44,18 @@ const generateElement = (i, j, k) => {
 
   if (element.kind === 'lecture') {
 
-    element['videoUrl'] = videosArray[videosCounter].url;
+    element['videoUrl'] = 'https://udemycoursecontenthr.s3.amazonaws.com/a-computer-monitor-flashing-digital-information-2887463.mp4';
     element['videoPreview'] = (Math.random() * 100 > 20 ? false : true);
     element['summary'] = lorem.generateSentences(Math.floor(Math.random() * 2));
-    element['elementLength'] = new Date(videosArray[videosCounter].duration);
+    element['elementLength'] = new Date(Math.floor(Math.random() * 120000));
 
-    videosCounter++;
-    videosCounter = videosCounter % videosArray.length;
   } else if (element.kind === 'article') {
     element['summary'] = lorem.generateSentences(Math.floor(Math.random() * 2));
     element['elementLength'] = new Date(Math.floor(Math.random() * 120000));
+
   } else if (element.kind === 'exercise') {
     element['numQuestions'] = Math.floor(Math.random() * 3) + 1;
+
   } else if (element.kind === 'quiz') {
     element['numQuestions'] = Math.floor(Math.random() * 3) + 1;
   }
@@ -68,7 +79,7 @@ const generateSection = (course, i, j) => {
 
   sectionIdCounter++;
 
-  for (let k = 0; k < Math.random() * 25; k++) {
+  for (let k = 0; k < Math.random() * 10; k++) {
     const newElement = generateElement(i, j, k);
 
     section.elements.push(newElement);
@@ -85,8 +96,8 @@ const generateSection = (course, i, j) => {
 const generateCourse = (i) => {
 
   let course = {
-    courseId: i + 1,
-    totalSections: (Math.floor(Math.random() * 45) + 5),
+    courseId: courseIdCounter,
+    totalSections: (Math.floor(Math.random() * 10) + 5),
     totalLectures: 0,
     totalExercises: 0,
     totalArticles: 0,
@@ -96,6 +107,7 @@ const generateCourse = (i) => {
     sections: []
   };
 
+  courseIdCounter ++;
   for (let j = 0; j < course.totalSections; j++) {
 
     const newSection = generateSection(course, i, j);
@@ -144,15 +156,56 @@ const countElements = (allCourses) => {
   return allCourses;
 };
 
-module.exports.generateAllCourses = (num) => {
+let generate1000Courses = async () => {
 
   let courses = [];
 
-  for (let i = 0; i < num; i++) {
+  for (let i = 0; i < 30; i++) {
     courses.push(generateCourse(i));
+    console.log('course created', courseIdCounter)
   }
 
   courses = countElements(courses);
 
-  return courses;
+  //console.log(courses);
+  return await courses;
 };
+
+//generate1000Courses();
+
+
+let createObject = async (document) => {
+
+  cb.insert(`${document.courseId}`, document, function (err, result) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(result);
+    }
+  });
+};
+
+let seed = async (num) => {
+
+  for (let s = 0; s <= num; s++) {
+    let documents = await generate1000Courses();
+    console.log('done generating, pushing to file', courseIdCounter);
+    await fs.appendFileSync('./Result.json', JSON.stringify(documents, null, 2));
+    await exec("cbimport json --format list -c http://127.0.0.1:8091 -u <login> -p <password> -d 'file://Result.json' -b 'Courses' -g #UUID# ", (error, stdout, stderr) => {
+      if (error) {
+        console.log(`error: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.log(`stderr: ${stderr}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+    });
+
+  }
+
+};
+
+
+seed(0);

@@ -126,11 +126,11 @@ module.exports.createElement = async (element) => {
 //--------------OLD MONGOOSE SCHEMA--------------------
 
 // const elementSchema = mongoose.Schema({
-  //   elementId: Number,
-  //   kind: String,
-  //   title: String,
-  //   sectionSequence: Number,
-  //   videoUrl: String,
+//   elementId: Number,
+//   kind: String,
+//   title: String,
+//   sectionSequence: Number,
+//   videoUrl: String,
 //   videoPreview: Boolean,
 //   summary: String,
 //   elementLength: Date,
