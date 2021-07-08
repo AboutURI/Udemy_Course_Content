@@ -9,7 +9,9 @@
     "react-dev": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "server-dev": "nodemon server/start.js",
-    "seed": "node seedDatabase/index.js"
+    "seed": "node seedDatabase/index.js",
+    "seedPGSQL": "node database/seedpsql.js",
+    "syncPG": "node database/postgreSQL.js"
   },
   "repository": {
     "type": "git",
