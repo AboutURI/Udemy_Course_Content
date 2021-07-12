@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('api', 'me', 'password', {
+const sequelize = new Sequelize('SDC', 'me', 'password', {
   host: 'localhost',
-  dialect: 'postgres'
+  dialect: 'postgres',
+  logging: false
 });
 
 
@@ -114,7 +115,7 @@ module.exports.createSection = async (section) => {
   let newSection = await Section.create(section);
 };
 
-module.exports.bulkCreateSection = async (sections) => {
+module.exports.bulkCreateSections = async (sections) => {
   // console.log('section info inside create function', section);
   let newSection = await Section.bulkCreate(sections);
 };
@@ -124,7 +125,7 @@ module.exports.createElement = async (element) => {
   let newElement = await Element.create(element);
 };
 
-module.exports.bulkCreateElement = async (elements) => {
+module.exports.bulkCreateElements = async (elements) => {
   //console.log('element info inside create function', element);
   let newElement = await Element.bulkCreate(elements);
 };
