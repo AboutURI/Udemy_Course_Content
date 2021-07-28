@@ -3,14 +3,14 @@ var bodyParser = require('body-parser');
 const compression = require('compression');
 const app = express();
 const path = require('path');
-const controller = require('./controller.js');
+const controller = require('./controllerSDC.js');
 const expressStaticGzip = require('express-static-gzip');
 const cors = require('cors');
 const db = require('../database/index.js');
 const PORT = process.env.PORT || 9800;
 
 // create application/json parser
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
 // create application/x-www-form-urlencoded parser
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
