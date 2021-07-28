@@ -105,6 +105,7 @@ const generateSection = (course, i, j) => {
 const generateCourse = (i) => {
 
   let course = {
+    _id: String(courseIdCounter),
     courseId: courseIdCounter,
     totalSections: (Math.floor(Math.random() * 10) + 5),
     totalLectures: 0,
@@ -196,4 +197,6 @@ let seed = async (num) => {
 
 };
 
-seed(2000);
+seed(3); //change back to 2000;
+
+//curl -w "@/Users/jacobstevens/HackReactor/sdc/Sidebar/database/curl-format.txt" -o /dev/null -s -u admin -X GET http://admin:password@127.0.0.1:5984/sidebar/450897
