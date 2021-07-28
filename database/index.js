@@ -85,4 +85,49 @@ module.exports.findElement = async id => {
 
 };
 
+//--------------CRUD---------------------
+
+//Create
+let createCourse = (data) => {
+  let newCourse = new Course(data);
+  newCourse.save(function(err, success) {
+    if (err) {
+      consoloe.log('error CREATEing record');
+    }
+  });
+};
+
+//Read
+let readCourse = (id) => {
+  return Course.find({ courseId: id });
+};
+
+//Update
+let updateCourse = (id, data, callback) => {
+
+  Course.findOneAndUpdate({courseId: id}, data, {new: true}, (err, result)=>{
+    if (err) {
+      console.log('Error Updating Course');
+    } else {
+      callback(result);
+    }
+  });
+
+};
+
+//Delete
+let deleteCourse = (id, callback) => {
+
+  Course.deleteOne({courseId: id}, (err, result) => {
+    if (err) {
+      console.log('error Deleting record');
+    } else {
+      callback(result);
+    }
+  });
+};
 module.exports.Course = Course;
+module.exports.deleteCourse = deleteCourse;
+module.exports.updateCourse = updateCourse;
+module.exports.readCourse = readCourse;
+module.exports.createCourse = createCourse;
