@@ -14,7 +14,7 @@ class CourseContent extends React.Component {
     const courseId = Number(queries['?courseId']);
 
     this.state = {
-      courseId,
+      courseId: window.location.search.split("=")[1] || 1,
       course: {},
       isLoaded: false,
       allExpanded: false,
@@ -48,7 +48,8 @@ class CourseContent extends React.Component {
   }
 
   componentDidMount() {
-
+    console.log(qs.parse(window.location.search));
+    console.log(this.queries);
     axios.get(`http://${this.state.host}/course/item?courseId=${this.state.courseId}`)
       .then((response) => {
         const course = this.setDisplay(response.data);
