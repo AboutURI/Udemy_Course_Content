@@ -7,7 +7,6 @@ module.exports.course = (req, res) => {
 
   db.findCourse(req.query.courseId)
     .then((result) => {
-      console.log('result here' ,result);
       if (result.length === 0) {
         res.sendStatus(404);
       } else if (result.length > 1) {

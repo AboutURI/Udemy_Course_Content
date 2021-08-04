@@ -197,6 +197,6 @@ let seed = async (num) => {
 
 };
 
-seed(3); //change back to 2000;
+seed(2000); //change back to 2000;
 
 //curl -w "@/Users/jacobstevens/HackReactor/sdc/Sidebar/database/curl-format.txt" -o /dev/null -s -u admin -X GET http://admin:password@127.0.0.1:5984/sidebar/450897
