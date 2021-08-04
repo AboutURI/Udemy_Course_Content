@@ -1,3 +1,4 @@
+const newrelic = require('newrelic');
 const express = require('express');
 var bodyParser = require('body-parser');
 const compression = require('compression');

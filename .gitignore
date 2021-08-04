@@ -7,3 +7,4 @@ coverage
 localConfig.js
 config.sample.js
 globalConfig.json
+newrelic.js
